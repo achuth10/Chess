@@ -22,26 +22,31 @@ public class Main {
             else
                 play=2;
             String move;
+            System.out.println();
             System.out.println("Player " + play + "- enter your move");
             move = in.next();
             if(move.equals("q"))
                 System.exit(0);
             String[] moves;
             moves = move.split(",");
-            if(!makemove(moves,chessBoard)) {
-                display(chessBoard);
-                System.out.println();
-                System.out.println("Invalid move !! ");
-                continue;
+            if(moves.length==3) {
+                if (!makemove(moves, chessBoard,play)) {
+                    display(chessBoard);
+                    System.out.println();
+                    System.out.println("Invalid move !! ");
+                    continue;
+                }
+                player = !player;
+                ChessCondition = true;
             }
-            player =!player;
-            ChessCondition = true;
+            else
+                System.out.println("Invalid input");
         }
 
 
 
     }
-    private static boolean makemove(String[] moves, ChessBoard[][] chessBoard) {
+    private static boolean makemove(String[] moves, ChessBoard[][] chessBoard,int player) {
         clearScreen();
         String piece = moves[0];
         piece = piece.toLowerCase();
@@ -60,7 +65,7 @@ public class Main {
 
             if (!(currPosCol == -1 || newPosCol == -1)) // invalid column
             {
-
+                if (chessBoard[currPosRow][currPosCol].getP().getP().toLowerCase().equals(piece)) {
                 if (!chessBoard[currPosRow][currPosCol].getP().getP().equals(" ")) {     // Np piece at current location
                     switch (piece) {
                         case "p": // If chose piece is a pawn
@@ -68,7 +73,7 @@ public class Main {
                                 System.out.println("Entered here");
                                 if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals("")) {
                                     chessBoard[newPosRow][newPosCol].setP(chessBoard[currPosRow][currPosCol].getP());        // Pawn kill
-                                    chessBoard[currPosRow][currPosCol].setP(new Piece(" ",0));
+                                    chessBoard[currPosRow][currPosCol].setP(new Piece(" ", 0));
                                 } else {
                                     return false;
                                 }
@@ -76,40 +81,49 @@ public class Main {
                             } else if (newPosRow - currPosRow == 1) {
                                 if (chessBoard[newPosRow][currPosCol].getP().getP().equals("")) {
                                     chessBoard[newPosRow][newPosCol].setP(chessBoard[currPosRow][currPosCol].getP());
-                                    chessBoard[currPosRow][currPosCol].setP(new Piece(" ",0));
+                                    chessBoard[currPosRow][currPosCol].setP(new Piece(" ", 0));
                                 } else {
                                     return false;
                                 }
+                                break;
                             } else if (Math.abs(newPosRow - currPosRow) == 2) {
+                                System.out.println("entred here");
                                 if (chessBoard[newPosRow][currPosCol].getP().getP().equals(" ")) {
                                     chessBoard[newPosRow][newPosCol].setP(chessBoard[currPosRow][currPosCol].getP());
-                                    chessBoard[currPosRow][currPosCol].setP(new Piece(" ",0));
+                                    chessBoard[currPosRow][currPosCol].setP(new Piece(" ", 0));
                                 } else {
                                     return false;
+                                }
+                                break;
+                            }
+
+                        case "c":
+                            if ((currPosCol == newPosCol) || (currPosRow == newPosRow)) {
+                                if (currPosCol == newPosCol) {
+                                    if (currPosRow > newPosRow) {
+                                        for (int i = currPosRow - 1; i >= newPosRow; i--) {
+                                            if (!chessBoard[i][currPosCol].getP().getP().equals(" ")) {
+                                                if (chessBoard[i][currPosCol].getP().getOwner() != player) {
+                                                    chessBoard[i][currPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                                    chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                                } else {
+                                                    System.out.println("Error cannot click ones own piece");
+                                                    return false;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             } else {
                                 return false;
                             }
-                        case "c":
-//                            if((currPosCol == newPosCol) || (currPosRow == newPosRow))
-//                        {
-//                            if(currPosCol == newPosCol)
-//                            {
-//                                if(currPosRow>newPosRow)
-//                                {
-//                                    for(int i =currPosRow-1;i>=newPosRow;i--)
-//                                    {
-//                                        if(!chessBoard[i][currPosCol].getP().equals(" "))
-//                                        {
-//
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                            else
-//                                return  false;
+                            break;
                     }
+                }
+                else
+                {
+                    System.out.println("Error here");
+                }
                     display(chessBoard);
 
                     return true;
