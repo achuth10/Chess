@@ -1,15 +1,16 @@
 public class ChessBoard {
-    String p ;
-    int white,black;
+    Piece p ;
+    int white,black,owner;
     ChessBoard()
     {
-        p=" ";
+        p = new Piece();
         white=0;
         black=0;
+        owner=0;
     }
     ChessBoard(String p ,int white,int black)
     {
-        this.p = p;
+        this.p = new Piece(" ");
         this.white=white;
         this.black=black;
     }
@@ -20,11 +21,15 @@ public class ChessBoard {
 
     }
 
-    public String getP() {
+    public void setOwner(int owner) {
+        this.owner = owner;
+    }
+
+    public Piece getP() {
         return p;
     }
 
-    public void setP(String p) {
+    public void setP(Piece p) {
         this.p = p;
     }
 
