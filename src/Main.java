@@ -52,14 +52,27 @@ public class Main {
         piece = piece.toLowerCase();
         String currPos = moves[1];
         String newPos = moves[2];
+        int currPosRow = 0;
+        int newPosRow = 0;
+        int currPosCol= 0;
+        int newPosCol =0 ;
 
-        int currPosRow = Integer.parseInt(String.valueOf(currPos.charAt(0))) - 1;
 
-        int newPosRow = Integer.parseInt(String.valueOf(newPos.charAt(0))) - 1;
+        try {
+            currPosRow = Integer.parseInt(String.valueOf(currPos.charAt(0))) - 1;
+            newPosRow = Integer.parseInt(String.valueOf(newPos.charAt(0))) - 1;
+            currPosCol = col(String.valueOf(currPos.charAt(1)));
+            newPosCol = col(String.valueOf(newPos.charAt(1)));
 
-        int currPosCol = col(String.valueOf(currPos.charAt(1)));
-        int newPosCol = col(String.valueOf(newPos.charAt(1)));
-
+        }
+        catch (NumberFormatException e )
+        {
+            e.printStackTrace();
+        }
+        if(currPosRow + currPosCol +newPosRow+newPosRow ==0)
+        {
+            return false;
+        }
         if((currPosRow>=0 && currPosRow<=7)&&(newPosRow>=0 && newPosRow<=7)) { // Invalid row
 
 
@@ -69,8 +82,7 @@ public class Main {
                 if (!chessBoard[currPosRow][currPosCol].getP().getP().equals(" ")) {     // Np piece at current location
                     switch (piece) {
                         case "p": // If chose piece is a pawn
-                            if (newPosRow == currPosRow + 1 && newPosCol == currPosCol + 1) {
-                                System.out.println("Entered here");
+                            if ((newPosRow == currPosRow + 1 && newPosCol == currPosCol + 1)&& chessBoard[newPosRow][newPosCol].getP().getOwner()!=chessBoard[currPosRow][currPosCol].getP().getOwner()) {
                                 if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals("")) {
                                     chessBoard[newPosRow][newPosCol].setP(chessBoard[currPosRow][currPosCol].getP());        // Pawn kill
                                     chessBoard[currPosRow][currPosCol].setP(new Piece(" ", 0));
@@ -96,37 +108,159 @@ public class Main {
                                 }
                                 break;
                             }
-
+                              break;
                         case "c":
+                            boolean changed = false;
+
+
                             if ((currPosCol == newPosCol) || (currPosRow == newPosRow)) {
+
+
+                                //going straight
                                 if (currPosCol == newPosCol) {
                                     if (currPosRow > newPosRow) {
+
+
+                                        // look ahead
                                         for (int i = currPosRow - 1; i >= newPosRow; i--) {
-                                            if (!chessBoard[i][currPosCol].getP().getP().equals(" ")) {
-                                                if (chessBoard[i][currPosCol].getP().getOwner() != player) {
-                                                    chessBoard[i][currPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
-                                                    chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                            if(i!=newPosRow) {
+                                                //System.out.println("piece is " +  chessBoard[i][currPosCol].getP().getP() + "----");
+                                                if (chessBoard[i][currPosCol].getP().getP().equals(" ")) {
+                                                    //System.out.println("entered first if and piece is " + chessBoard[i][currPosCol].getP().getP() + "----");
                                                 } else {
-                                                    System.out.println("Error cannot click ones own piece");
-                                                    return false;
+                                                    //System.out.println("entered second if ");
+                                                    if (chessBoard[i][currPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
+//                                                        System.out.println("entered inside second if ");
+//                                                        System.out.println("i is " + i);
+//                                                        System.out.println("Owner is " + chessBoard[i][currPosCol].getP().getOwner());
+//                                                        System.out.println("Player is " + player);
+                                                        chessBoard[i][currPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                                        chessBoard[i][currPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                                       // System.out.println("Owner is " + chessBoard[i][currPosCol].getP().getOwner());
+                                                        chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                                        chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                                        changed = true;
+                                                    } else {
+                                                        System.out.println("Cannot kill one's own piece 1 ");
+                                                        return false;
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    } else if (currPosRow < newPosRow) {
+                                        for (int i = currPosRow+1; i <= newPosRow; i++) {
+                                            if (i != newPosRow) {
+                                               // System.out.println("piece is " + chessBoard[i][currPosCol].getP().getP() + "----");
+                                                if (chessBoard[i][currPosCol].getP().getP().equals(" ")) {
+                                                   // System.out.println("entered first if and piece is " + chessBoard[i][currPosCol].getP().getP() + "----");
+                                                } else {
+                                                 //   System.out.println("entered second if ");
+                                                    if (chessBoard[i][currPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
+//                                                        System.out.println("entered inside second if ");
+//                                                        System.out.println("i is " + i);
+//                                                        System.out.println("Owner is " + chessBoard[i][currPosCol].getP().getOwner());
+//                                                        System.out.println("Player is " + player);
+                                                        chessBoard[i][currPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                                        chessBoard[i][currPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                                        chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                                        chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                                        changed = true;
+                                                    } else {
+                                                        System.out.println("Cannot kill one's own piece 2 ");
+                                                        return false;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            } else {
+
+//going laterally
+                                else if (currPosRow==newPosRow){
+
+                                    System.out.println("entered here");
+
+                                    if (currPosCol > newPosCol) {
+
+
+
+                                        // look ahead
+                                        for (int i = currPosCol - 1; i >= newPosCol; i--) {
+                                            if (i != newPosCol) {
+                                                System.out.println("piece is " + chessBoard[currPosRow][i].getP().getP() + "i is " + i + "new col is" + newPosCol);
+                                                if (chessBoard[currPosRow][i].getP().getP().equals(" ")) {
+                                                    System.out.println("entered first if and piece is " + chessBoard[currPosRow][i].getP().getP() + "----");
+                                                } else {
+                                                    System.out.println("entered second if ");
+                                                    if (chessBoard[currPosRow][i].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
+//                                                        System.out.println("entered inside second if ");
+//                                                        System.out.println("i is " + i);
+//                                                        System.out.println("Owner is " + chessBoard[i][currPosCol].getP().getOwner());
+//                                                        System.out.println("Player is " + player);
+                                                        chessBoard[currPosRow][i].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                                        chessBoard[currPosRow][i].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                                        chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                                        chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                                        changed = true;
+                                                    } else {
+                                                        System.out.println("Cannot kill one's own piece 2 ");
+                                                        return false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        for (int i = currPosCol + 1; i <= newPosCol; i++) {
+                                            if (i != newPosCol) {
+                                                System.out.println("piece is " + chessBoard[currPosRow][i].getP().getP() + "i is " + i + "new col is" + newPosCol);
+                                                if (chessBoard[currPosRow][i].getP().getP().equals(" ")) {
+                                                     System.out.println("entered first if and piece is " + chessBoard[currPosRow][i].getP().getP() + "----");
+                                                } else {
+                                                       System.out.println("entered second if ");
+                                                    if (chessBoard[currPosRow][i].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
+//                                                        System.out.println("entered inside second if ");
+//                                                        System.out.println("i is " + i);
+//                                                        System.out.println("Owner is " + chessBoard[i][currPosCol].getP().getOwner());
+//                                                        System.out.println("Player is " + player);
+                                                        chessBoard[currPosRow][i].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                                        chessBoard[currPosRow][i].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                                        chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                                        chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                                        changed = true;
+                                                    } else {
+                                                        System.out.println("Cannot kill one's own piece 2 ");
+                                                        return false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                }
+
+                            System.out.println("changed is  " + changed);
+                            System.out.println(" new is "+ chessBoard[newPosRow][newPosCol].getP().getOwner());
+                            System.out.println("old is "+ chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                if (!changed && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[ currPosRow][currPosCol].getP().getOwner()) )
+                                     {
+                                    chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                    chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                    chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                    chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                }
+
+
+                            else {
                                 return false;
                             }
                             break;
                     }
+                    display(chessBoard);
+                    return true;
                 }
                 else
-                {
-                    System.out.println("Error here");
-                }
-                    display(chessBoard);
-
-                    return true;
+                    return false;
                 } else
                     return false;
             } else
@@ -171,42 +305,42 @@ public class Main {
                     chessBoard[i][j]=new ChessBoard(" ",0,1);
             }
         }
-        chessBoard[0][0].setP( new Piece("C",1));
-        chessBoard[0][1].setP( new Piece("H",1));
-        chessBoard[0][2].setP( new Piece("B",1));
-        chessBoard[0][3].setP( new Piece("K",1));
-        chessBoard[0][4].setP( new Piece("Q",1));
-        chessBoard[0][5].setP( new Piece("B",1));
-        chessBoard[0][6].setP( new Piece("H",1));
-        chessBoard[0][7].setP( new Piece("C",1));
+        chessBoard[0][0].setP( new Piece("C",2));
+        chessBoard[0][1].setP( new Piece("H",2));
+        chessBoard[0][2].setP( new Piece("B",2));
+        chessBoard[0][3].setP( new Piece("K",2));
+        chessBoard[0][4].setP( new Piece("Q",2));
+        chessBoard[0][5].setP( new Piece("B",2));
+        chessBoard[0][6].setP( new Piece("H",2));
+        chessBoard[0][7].setP( new Piece("C",2));
 
-        chessBoard[1][0].setP( new Piece("P",1));
-        chessBoard[1][1].setP( new Piece("P",1));
-        chessBoard[1][2].setP( new Piece("P",1));
-        chessBoard[1][3].setP( new Piece("P",1));
-        chessBoard[1][4].setP( new Piece("P",1));
-        chessBoard[1][5].setP( new Piece("P",1));
-        chessBoard[1][6].setP( new Piece("P",1));
-        chessBoard[1][7].setP( new Piece("P",1));
+        chessBoard[1][0].setP( new Piece("P",2));
+        chessBoard[1][1].setP( new Piece("P",2));
+        chessBoard[1][2].setP( new Piece("P",2));
+        chessBoard[1][3].setP( new Piece("P",2));
+        chessBoard[1][4].setP( new Piece("P",2));
+        chessBoard[1][5].setP( new Piece("P",2));
+        chessBoard[1][6].setP( new Piece("P",2));
+        chessBoard[1][7].setP( new Piece("P",2));
 
 
-        chessBoard[7][0].setP( new Piece("C",2));
-        chessBoard[7][1].setP( new Piece("H",2));
-        chessBoard[7][2].setP( new Piece("B",2));
-        chessBoard[7][3].setP( new Piece("K",2));
-        chessBoard[7][4].setP( new Piece("Q",2));
-        chessBoard[7][5].setP( new Piece("B",2));
-        chessBoard[7][6].setP( new Piece("H",2));
-        chessBoard[7][7].setP( new Piece("C",2));
+        chessBoard[7][0].setP( new Piece("C",1));
+        chessBoard[7][1].setP( new Piece("H",1));
+        chessBoard[7][2].setP( new Piece("B",1));
+        chessBoard[7][3].setP( new Piece("K",1));
+        chessBoard[7][4].setP( new Piece("Q",1));
+        chessBoard[7][5].setP( new Piece("B",1));
+        chessBoard[7][6].setP( new Piece("H",1));
+        chessBoard[7][7].setP( new Piece("C",1));
 
-        chessBoard[6][0].setP( new Piece("P",2));
-        chessBoard[6][1].setP( new Piece("P",2));
-        chessBoard[6][2].setP( new Piece("P",2));
-        chessBoard[6][3].setP( new Piece("P",2));
-        chessBoard[6][4].setP( new Piece("P",2));
-        chessBoard[6][5].setP( new Piece("P",2));
-        chessBoard[6][6].setP( new Piece("P",2));
-        chessBoard[6][7].setP( new Piece("P",2));
+        chessBoard[6][0].setP( new Piece(" ",0));
+        chessBoard[6][1].setP( new Piece("P",1));
+        chessBoard[6][2].setP( new Piece("P",1));
+        chessBoard[6][3].setP( new Piece("P",1));
+        chessBoard[6][4].setP( new Piece("P",1));
+        chessBoard[6][5].setP( new Piece("P",1));
+        chessBoard[6][6].setP( new Piece("P",1));
+        chessBoard[6][7].setP( new Piece("P",1));
     }
 
     private static void display(ChessBoard[][] chessBoard) {

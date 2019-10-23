@@ -30,4 +30,8 @@ public class Piece {
     public void setOwner(int owner) {
         this.owner = owner;
     }
+    public boolean checkSameOwner(int owner)
+    {
+        return this.owner==owner;
+    }
 }
