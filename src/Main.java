@@ -1,13 +1,15 @@
 
+import java.io.IOException;
 import java.util.Scanner;
 public class Main {
-
+static int p1Piece;
+    static int p2Piece;
     public static void main(String[] args) {
 	// write your code here
         Scanner in = new Scanner(System.in);
         ChessBoard [][]chessBoard = new  ChessBoard[8][8];
         init(chessBoard);
-        System.out.println("Welcome to Chess");
+        System.out.println("        Welcome to Chess");
         display(chessBoard);
         System.out.println();
         System.out.println("To play enter the chess piece followed by the location : Eg P,2a,4a (Piece,current pos,new pos)");
@@ -17,6 +19,7 @@ public class Main {
 
         boolean player =false;
         while (ChessCondition) {
+
             int play;
             if (!player)
                 play=1;
@@ -48,7 +51,6 @@ public class Main {
 
     }
     private static boolean makemove(String[] moves, ChessBoard[][] chessBoard,int player) {
-        clearScreen();
         String piece = moves[0];
         piece = piece.toLowerCase();
         String currPos = moves[1];
@@ -82,13 +84,17 @@ public class Main {
                 if (chessBoard[currPosRow][currPosCol].getP().getP().toLowerCase().equals(piece)) {
                 if (!chessBoard[currPosRow][currPosCol].getP().getP().equals(" ")) {     // Np piece at current location
                     switch (piece) {
-                        case "p": // If chose piece is a pawn
+                        case "p": // If chosen piece is a pawn
                             if ((newPosRow == currPosRow + 1 && newPosCol == currPosCol + 1) && chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
-                                if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals("")) {
+                                if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals(" ")) {
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                    if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                        p2Piece--;
+                                    else
+                                        p1Piece--;
                                 } else {
                                     return false;
                                 }
@@ -242,10 +248,18 @@ public class Main {
 //                            System.out.println(" new is "+ chessBoard[newPosRow][newPosCol].getP().getOwner());
 //                            System.out.println("old is "+ chessBoard[currPosRow][currPosCol].getP().getOwner());
                                 if (!changed && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
+                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
+                                    {
+                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                            p2Piece--;
+                                        else
+                                            p1Piece--;
+                                    }
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+
                                 }
                             } else {
                                 return false;
@@ -260,10 +274,18 @@ public class Main {
                                 if ((currPosCol + 2 == newPosCol) || (currPosCol - 2 == newPosCol)) {
                                     if ((currPosRow + 1 == newPosRow) || (currPosRow - 1 == newPosRow)) {
                                         if (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
+                                            if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
+                                            {
+                                                if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                                    p2Piece--;
+                                                else
+                                                    p1Piece--;
+                                            }
                                             chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                             chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                             chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                             chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+
                                         } else {
                                             System.out.println("Cannot kill one's own piece  ");
                                             return false;
@@ -273,6 +295,13 @@ public class Main {
                                 } else if ((currPosCol + 1 == newPosCol) || (currPosCol - 1 == newPosCol)) {
                                     if ((currPosRow + 2 == newPosRow) || (currPosRow - 2 == newPosRow)) {
                                         if (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
+                                            if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
+                                            {
+                                                if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                                    p2Piece--;
+                                                else
+                                                    p1Piece--;
+                                            }
                                             chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                             chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                             chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
@@ -398,10 +427,18 @@ public class Main {
                                 }
 
                                 if (!changed2 && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
+                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
+                                    {
+                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                            p2Piece--;
+                                        else
+                                            p1Piece--;
+                                    }
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+
                                 } else
                                     return false;
                             }
@@ -528,10 +565,18 @@ public class Main {
 //                            System.out.println(" new is "+ chessBoard[newPosRow][newPosCol].getP().getOwner());
 //                            System.out.println("old is "+ chessBoard[currPosRow][currPosCol].getP().getOwner());
                                 if (!changed3 && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
+                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
+                                    {
+                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                            p2Piece--;
+                                        else
+                                            p1Piece--;
+                                    }
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+
                                 }
                             }
 
@@ -639,10 +684,18 @@ public class Main {
                                 }
 
                                 if (!changed4 && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
+                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
+                                    {
+                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                            p2Piece--;
+                                        else
+                                            p1Piece--;
+                                    }
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+
                                 } else
                                     return false;
                             }
@@ -663,10 +716,19 @@ public class Main {
                                     ||  ((newPosCol==currPosCol+1 )&& (currPosRow  ==newPosRow) )
                             )
                             {
+                                if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
+                                {
+                                    if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                        p2Piece--;
+                                    else
+                                        p1Piece--;
+                                }
+
                                 chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                 chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                 chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                 chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+
                             } else
                                 return false;
 
@@ -712,6 +774,7 @@ public class Main {
 
 
     private static void init(ChessBoard[][] chessBoard) {
+        p1Piece=p2Piece=16;
         for (int i = 0; i <8; i++) {
             for(int j = 0 ;j<8;j++)
             {
@@ -759,7 +822,7 @@ public class Main {
     }
 
     private static void display(ChessBoard[][] chessBoard) {
-        System.out.println("          Player 2");
+        System.out.println("          Player 2("+p2Piece+")");
 System.out.print("   ");
         for(char c = 'a'; c <= 'h'; ++c)
         {
@@ -800,12 +863,15 @@ System.out.print("   ");
             System.out.print(" " + c+" ");
         }
         System.out.println();
-        System.out.println("          Player 1");
+        System.out.println("          Player 1("+p1Piece+")");
     }
-
-
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+    public static void clrscr(){
+        //Clears Screen in java
+        try {
+            if (System.getProperty("os.name").contains("Windows"))
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            else
+                Runtime.getRuntime().exec("clear");
+        } catch (IOException | InterruptedException ex) {}
     }
 }
