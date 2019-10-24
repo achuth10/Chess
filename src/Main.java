@@ -2,8 +2,9 @@
 import java.io.IOException;
 import java.util.Scanner;
 public class Main {
-static int p1Piece;
-    static int p2Piece;
+static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
+    private static boolean king1_checkmate,king2_checkmate,king1_check,king2_check;
+
     public static void main(String[] args) {
 	// write your code here
         Scanner in = new Scanner(System.in);
@@ -19,7 +20,7 @@ static int p1Piece;
 
         boolean player =false;
         while (ChessCondition) {
-
+            king1_checkmate=king2_checkmate=king1_check=king2_check=false;
             int play;
             if (!player)
                 play=1;
@@ -34,14 +35,33 @@ static int p1Piece;
             String[] moves;
             moves = move.split(",");
             if(moves.length==3) {
-                if (!makemove(moves, chessBoard,play)) {
+                if (!makemove(moves, chessBoard, play)) {
                     display(chessBoard);
                     System.out.println();
                     System.out.println("Invalid move !! ");
                     continue;
                 }
-                player = !player;
-                ChessCondition = true;
+                checkCheck(k1x, k1y, k2x, k2y, chessBoard);
+                if (king1_checkmate) {
+                    System.out.println("Player 2 wins");
+                    ChessCondition = false;
+                } else if (king2_checkmate) {
+                    System.out.println("Player 1 wins");
+                    ChessCondition = false;
+                }
+                else if (king1_check) {
+                    System.out.println("Warning Player 1 is under check");
+                    System.out.println("Redo Move !");
+                }
+                else if (king2_check) {
+                    System.out.println("Warning Player 2 is under check");
+                    System.out.println("Redo Move !");
+                }
+                    else
+                 {
+                    player = !player;
+                    ChessCondition = true;
+                }
             }
             else
                 System.out.println("Invalid input");
@@ -50,6 +70,200 @@ static int p1Piece;
 
 
     }
+
+    private static void checkCheck(int k1x, int k1y, int k2x, int k2y, ChessBoard[][] chessBoard) {
+        boolean checkk1,checkk2,checkk3,checkk4,checkk5,checkk6,checkk7,checkk8;
+        boolean checkk21,checkk22,checkk23,checkk24,checkk25,checkk26,checkk27,checkk28;
+        checkk1=checkk2=checkk3=checkk4=checkk5=checkk6=checkk7=checkk8=checkk21=checkk22=checkk23=checkk24=checkk25=checkk26=checkk27=checkk28=false;
+
+        //King1
+        for(int i = k1y;i<=7;i++)
+        {
+            if((chessBoard[k1x][i].getP().getP().equals("Q*")) || (chessBoard[k1x][i].getP().getP().equals("C*")))
+            {
+                checkk1=true;
+            }
+        }
+
+
+
+        for(int i = k1y;i>=0;i--)
+        {
+            if ((chessBoard[k1x][i].getP().getP().equals("Q*")) || (chessBoard[k1x][i].getP().getP().equals("C*"))) {
+                checkk2 = true;
+                break;
+            }
+        }
+        for(int i = k1x;i<7;i++)
+        {
+            if ((chessBoard[i][k1y].getP().getP().equals("Q*")) || (chessBoard[i][k1y].getP().getP().equals("C*"))) {
+                checkk3 = true;
+                break;
+            }
+        }
+        for(int i = k1x;i>=0;i--)
+        {
+            if ((chessBoard[i][k1y].getP().getP().equals("Q*")) || (chessBoard[i][k1y].getP().getP().equals("C*"))) {
+                checkk4 = true;
+                break;
+            }
+        }
+        int j =0;
+        j=k1y;
+        for(int i = k1x;i<7;i++)
+        {
+            if(j<=7) {
+                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
+                    checkk5 = true;
+                    break;
+                }
+            }
+            j++;
+        }
+
+        j=k1y;
+        for(int i = k1x;i<=7;i++)
+        {
+            if(j>=0) {
+                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
+                    checkk6 = true;
+                    break;
+                }
+            }
+            j--;
+        }
+
+        j=k1y;
+        for(int i = k1x;i>=0;i--)
+        {
+                if(j>=0) {
+                    if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
+                        checkk7 = true;
+                        break;
+                    }
+                }
+                j--;
+        }
+        j=k1y;
+        for(int i = k1x;i>=0;i--)
+        {
+            if(j<=7) {
+                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
+                    checkk8 = true;
+                    break;
+                }
+            }
+            j++;
+        }
+
+
+        //King2
+        for(int i = k2y;i<=7;i++)
+        {
+            if ((chessBoard[k2x][i].getP().getP().equals("Q^")) || (chessBoard[k2x][i].getP().getP().equals("C^"))) {
+                checkk21 = true;
+                break;
+            }
+        }
+
+
+
+        for(int i = k2y;i>=0;i--)
+        {
+            if ((chessBoard[k2x][i].getP().getP().equals("Q^")) || (chessBoard[k2x][i].getP().getP().equals("C^"))) {
+                checkk22 = true;
+                break;
+            }
+        }
+        for(int i = k2x;i<7;i++)
+        {
+            if ((chessBoard[i][k2y].getP().getP().equals("Q^")) || (chessBoard[i][k2y].getP().getP().equals("C^"))) {
+                checkk23 = true;
+                break;
+            }
+        }
+        for(int i = k2x;i>=0;i--)
+        {
+            if ((chessBoard[i][k2y].getP().getP().equals("Q^")) || (chessBoard[i][k2y].getP().getP().equals("C^"))) {
+                checkk24 = true;
+                break;
+            }
+        }
+        j=k2y;
+        for(int i = k2x;i<7;i++)
+        {
+            if(j<=7) {
+                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
+                    checkk25 = true;
+                    break;
+                }
+            }
+            j++;
+        }
+
+        j=k2y;
+        for(int i = k2x;i<=7;i++)
+        {
+            if(j>=0) {
+                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
+                    checkk26 = true;
+                    break;
+                }
+            }
+            j--;
+        }
+
+        j=k2y;
+        for(int i = k2x;i>=0;i--)
+        {
+            if(j>=0) {
+                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
+                    checkk27 = true;
+                    break;
+                }
+            }
+            j--;
+        }
+        j=k2y;
+        for(int i = k2x;i>=0;i--)
+        {
+            if(j<=7) {
+                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
+                    checkk28 = true;
+                    break;
+                }
+            }
+            j++;
+        }
+
+
+
+
+        if(checkk1&&checkk2&&checkk3&&checkk4&&checkk5&&checkk6&&checkk7&&checkk8)
+        {
+            king1_checkmate = true;
+        }
+        if(checkk21&&checkk22&&checkk23&&checkk24&&checkk25&&checkk26&&checkk27&&checkk28)
+        {
+            king2_checkmate = true;
+        }
+        if(checkk1||checkk2||checkk3||checkk4||checkk5||checkk6||checkk7||checkk8)
+        {
+            king1_check = true;
+        }
+
+        if(checkk21||checkk22||checkk23||checkk24||checkk25||checkk26||checkk27||checkk28)
+        {
+            king2_check = true;
+        }
+
+
+
+
+
+
+    }
+
     private static boolean makemove(String[] moves, ChessBoard[][] chessBoard,int player) {
         String piece = moves[0];
         piece = piece.toLowerCase();
@@ -77,7 +291,7 @@ static int p1Piece;
 
             return false;
         }
-        if((currPosRow>=0 && currPosRow<=7)&&(newPosRow>=0 && newPosRow<=7)) { // Invalid row
+        if((currPosRow>=0 || currPosRow<=7)||(newPosRow>=0 && newPosRow<=7)) { // Invalid row
 
 
             if (!(currPosCol == -1 || newPosCol == -1)) // invalid column
@@ -90,7 +304,7 @@ static int p1Piece;
                             // && chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
                         {
                             if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals(" ")) {
-                                    System.out.println("Entered kill cond");
+                                   /// System.out.println("Entered kill cond");
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
@@ -118,7 +332,7 @@ static int p1Piece;
                                 }
                                 break;
                             } else if (Math.abs(newPosRow - currPosRow) == 2) {
-                                System.out.println("entered here");
+                               // System.out.println("entered here");
                                 if(!chessBoard[currPosRow][currPosCol].getP().isInitial()) {
                                     if (chessBoard[newPosRow][currPosCol].getP().getP().equals(" ")) {
                                         chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
@@ -735,7 +949,16 @@ static int p1Piece;
                                 chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                 chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                 chessBoard[currPosRow][currPosCol].getP().setOwner(0);
-
+                                if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                {
+                                    k1x=newPosRow;
+                                    k1y=newPosCol;
+                                }
+                                else
+                                {
+                                    k2x=newPosRow;
+                                    k2y=newPosCol;
+                                }
                             } else
                                 return false;
 
@@ -754,6 +977,8 @@ static int p1Piece;
         else
             return false;
     }
+
+
 
     private static Integer col(String value) {
         value= value.toLowerCase();
@@ -795,6 +1020,8 @@ static int p1Piece;
         chessBoard[0][1].setP( new Piece("H*",2,false));
         chessBoard[0][2].setP( new Piece("B*",2,false));
         chessBoard[0][3].setP( new Piece("K*",2,false));
+        k2x=0;
+        k2y=3;
         chessBoard[0][4].setP( new Piece("Q*",2,false));
         chessBoard[0][5].setP( new Piece("B*",2,false));
         chessBoard[0][6].setP( new Piece("H*",2,false));
@@ -813,6 +1040,8 @@ static int p1Piece;
         chessBoard[7][1].setP( new Piece("H^",1,false));
         chessBoard[7][2].setP( new Piece("B^",1,false));
         chessBoard[7][3].setP( new Piece("K^",1,false));
+        k1x=7;
+        k1y=3;
         chessBoard[7][4].setP( new Piece("Q^",1,false));
         chessBoard[7][5].setP( new Piece("B^",1,false));
         chessBoard[7][6].setP( new Piece("H^",1,false));
