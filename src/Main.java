@@ -248,9 +248,58 @@ public class Main {
                             break;
 
 
+                        case "h":
+                            if((currPosRow==newPosRow) || (currPosCol==newPosCol))
+                                return false;
+                            else
+                            {
+                                    if((currPosCol+2==newPosCol)||(currPosCol-2==newPosCol))
+                                    {
+                                        if((currPosRow+1==newPosRow)||(currPosRow-1==newPosRow))
+                                        {
+                                            if(chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[ currPosRow][currPosCol].getP().getOwner())
+                                            {
+                                                chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                                chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                                chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                                chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                            } else {
+                                            System.out.println("Cannot kill one's own piece  ");
+                                            return false;
+                                        }
+                                        }
+                                        else
+                                            return false;
+                                    }
+
+
+                                    else if((currPosCol+1==newPosCol)||(currPosCol-1==newPosCol))
+                                    {
+                                        if((currPosRow+2==newPosRow)||(currPosRow-2==newPosRow))
+                                        {
+                                            if(chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[ currPosRow][currPosCol].getP().getOwner())
+                                            {
+                                                chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                                chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                                chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                                chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                            } else {
+                                                System.out.println("Cannot kill one's own piece");
+                                                return false;
+                                            }
+                                        }
+                                        else
+                                            return false;
+                                    }
+
+
+                            }
+
+                            break;
 
                         case "b":
                             boolean changed2=false;
+                            //eliminate wrong moves
                             if((newPosRow==currPosRow) || (newPosCol==currPosCol))
                                 return false;
                             else
@@ -382,9 +431,6 @@ public class Main {
                                 else
                                     return false;
                             }
-
-
-
 
                             break;
                     }
