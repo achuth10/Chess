@@ -79,9 +79,13 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         //King1
         for(int i = k1y;i<=7;i++)
         {
-            if((chessBoard[k1x][i].getP().getP().equals("Q*")) || (chessBoard[k1x][i].getP().getP().equals("C*")))
+            if((chessBoard[k1x][i].getP().getP().contains("^")) && !(chessBoard[k1x][i].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
             {
-                checkk1=true;
+                break;
+            }
+            if ((chessBoard[k1x][i].getP().getP().equals("Q*")) || (chessBoard[k1x][i].getP().getP().equals("C*"))) {
+                checkk1 = true;
+                break;
             }
         }
 
@@ -89,6 +93,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 
         for(int i = k1y;i>=0;i--)
         {
+            if((chessBoard[k1x][i].getP().getP().contains("^")) && !(chessBoard[k1x][i].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
+            {
+                break;
+            }
             if ((chessBoard[k1x][i].getP().getP().equals("Q*")) || (chessBoard[k1x][i].getP().getP().equals("C*"))) {
                 checkk2 = true;
                 break;
@@ -96,6 +104,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         }
         for(int i = k1x;i<7;i++)
         {
+            if((chessBoard[i][k1y].getP().getP().contains("^")) && !(chessBoard[i][k1y].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
+            {
+                break;
+            }
             if ((chessBoard[i][k1y].getP().getP().equals("Q*")) || (chessBoard[i][k1y].getP().getP().equals("C*"))) {
                 checkk3 = true;
                 break;
@@ -103,27 +115,40 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         }
         for(int i = k1x;i>=0;i--)
         {
+            if((chessBoard[i][k1y].getP().getP().contains("^")) && !(chessBoard[i][k1y].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
+            {
+                break;
+            }
             if ((chessBoard[i][k1y].getP().getP().equals("Q*")) || (chessBoard[i][k1y].getP().getP().equals("C*"))) {
                 checkk4 = true;
                 break;
             }
         }
+
         int j =0;
         j=k1y;
         for(int i = k1x;i<7;i++)
         {
-            if(j<=7) {
-                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
-                    checkk5 = true;
-                    break;
-                }
+            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
+            {
+                break;
             }
+                if (j <= 7) {
+                    if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*")) || (chessBoard[i][j].getP().getP().equals("B*"))) {
+                        checkk5 = true;
+                        break;
+                    }
+                }
             j++;
         }
 
         j=k1y;
         for(int i = k1x;i<=7;i++)
         {
+            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
+            {
+                break;
+            }
             if(j>=0) {
                 if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
                     checkk6 = true;
@@ -136,6 +161,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         j=k1y;
         for(int i = k1x;i>=0;i--)
         {
+            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
+            {
+                break;
+            }
                 if(j>=0) {
                     if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
                         checkk7 = true;
@@ -147,6 +176,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         j=k1y;
         for(int i = k1x;i>=0;i--)
         {
+            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
+            {
+                break;
+            }
             if(j<=7) {
                 if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
                     checkk8 = true;
@@ -160,6 +193,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         //King2
         for(int i = k2y;i<=7;i++)
         {
+            if((chessBoard[k2x][i].getP().getP().contains("^")) && !(chessBoard[k2x][i].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if ((chessBoard[k2x][i].getP().getP().equals("Q^")) || (chessBoard[k2x][i].getP().getP().equals("C^"))) {
                 checkk21 = true;
                 break;
@@ -170,6 +207,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 
         for(int i = k2y;i>=0;i--)
         {
+            if((chessBoard[k2x][i].getP().getP().contains("^")) && !(chessBoard[k2x][i].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if ((chessBoard[k2x][i].getP().getP().equals("Q^")) || (chessBoard[k2x][i].getP().getP().equals("C^"))) {
                 checkk22 = true;
                 break;
@@ -177,6 +218,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         }
         for(int i = k2x;i<7;i++)
         {
+            if((chessBoard[i][k2y].getP().getP().contains("^")) && !(chessBoard[i][k2y].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if ((chessBoard[i][k2y].getP().getP().equals("Q^")) || (chessBoard[i][k2y].getP().getP().equals("C^"))) {
                 checkk23 = true;
                 break;
@@ -184,6 +229,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         }
         for(int i = k2x;i>=0;i--)
         {
+            if((chessBoard[i][k2y].getP().getP().contains("^")) && !(chessBoard[i][k2y].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if ((chessBoard[i][k2y].getP().getP().equals("Q^")) || (chessBoard[i][k2y].getP().getP().equals("C^"))) {
                 checkk24 = true;
                 break;
@@ -192,6 +241,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         j=k2y;
         for(int i = k2x;i<7;i++)
         {
+            if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if(j<=7) {
                 if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk25 = true;
@@ -204,6 +257,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         j=k2y;
         for(int i = k2x;i<=7;i++)
         {
+            if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if(j>=0) {
                 if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk26 = true;
@@ -216,6 +273,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         j=k2y;
         for(int i = k2x;i>=0;i--)
         {
+            if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if(j>=0) {
                 if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk27 = true;
@@ -227,6 +288,10 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         j=k2y;
         for(int i = k2x;i>=0;i--)
         {
+            if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            {
+                break;
+            }
             if(j<=7) {
                 if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk28 = true;
