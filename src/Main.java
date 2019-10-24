@@ -7,11 +7,12 @@ public class Main {
         Scanner in = new Scanner(System.in);
         ChessBoard [][]chessBoard = new  ChessBoard[8][8];
         init(chessBoard);
-        System.out.println("Welcome to the chess game ");
+        System.out.println("Welcome to Chess");
         display(chessBoard);
         System.out.println();
         System.out.println("To play enter the chess piece followed by the location : Eg P,2a,4a (Piece,current pos,new pos)");
-        System.out.println("Give q as the input to exit out of the game at any point ");
+        System.out.println("Enter q as the input to exit out of the game at any point ");
+
         boolean ChessCondition = true;
 
         boolean player =false;
@@ -636,6 +637,29 @@ public class Main {
                             }
 
                             break;
+
+                        case "k":
+
+                            if((chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) && (
+                                    (newPosCol==currPosCol+1 )&& (currPosRow==newPosRow))
+                                    ||  ((newPosCol==currPosCol+1 )&& (currPosRow+1==newPosRow) )
+                                    ||  ((newPosCol==currPosCol   )&& (currPosRow+1==newPosRow) )
+                                    ||  ((newPosCol==currPosCol-1 )&& (currPosRow+1==newPosRow) )
+                                    ||  ((newPosCol==currPosCol-1 )&& (currPosRow  ==newPosRow) )
+                                    ||  ((newPosCol==currPosCol-1 )&& (currPosRow-1==newPosRow) )
+                                    ||  ((newPosCol==currPosCol   )&& (currPosRow-1==newPosRow) )
+                                    ||  ((newPosCol==currPosCol+1 )&& (currPosRow-1==newPosRow) )
+                                    ||  ((newPosCol==currPosCol+1 )&& (currPosRow  ==newPosRow) )
+                            )
+                            {
+                                chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
+                                chessBoard[currPosRow][currPosCol].getP().setP(" ");
+                                chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
+                                chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                            } else
+                                return false;
+
+                            break;
                     }
                     display(chessBoard);
                     return true;
@@ -714,7 +738,7 @@ public class Main {
         chessBoard[7][6].setP( new Piece("H",1));
         chessBoard[7][7].setP( new Piece("C",1));
 
-        chessBoard[6][0].setP( new Piece(" ",0));
+        chessBoard[6][0].setP( new Piece("P",1));
         chessBoard[6][1].setP( new Piece("P",1));
         chessBoard[6][2].setP( new Piece("P",1));
         chessBoard[6][3].setP( new Piece("P",1));
@@ -725,7 +749,7 @@ public class Main {
     }
 
     private static void display(ChessBoard[][] chessBoard) {
-        System.out.println();
+        System.out.println("          Player 2");
 System.out.print("   ");
         for(char c = 'a'; c <= 'h'; ++c)
         {
@@ -765,6 +789,8 @@ System.out.print("   ");
         {
             System.out.print(" " + c+" ");
         }
+        System.out.println();
+        System.out.println("          Player 1");
     }
 
 
