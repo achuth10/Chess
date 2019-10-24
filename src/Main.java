@@ -86,12 +86,17 @@ static int p1Piece;
                 if (!chessBoard[currPosRow][currPosCol].getP().getP().equals(" ")) {     // Np piece at current location
                     switch (piece) {
                         case "p": // If chosen piece is a pawn
-                            if ((newPosRow == currPosRow + 1 && newPosCol == currPosCol + 1) && chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
-                                if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals(" ")) {
+                            if (Math.abs(newPosRow - currPosRow )== 1 && Math.abs(newPosCol - currPosCol )== 1)
+                            // && chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
+                        {
+                            if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals(" ")) {
+                                    System.out.println("Entered kill cond");
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                    chessBoard[currPosRow][currPosCol].getP().setInitial(false);
+                                    chessBoard[newPosRow][newPosCol].getP().setInitial(true);
                                     if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
                                         p2Piece--;
                                     else
@@ -100,12 +105,13 @@ static int p1Piece;
                                     return false;
                                 }
                                 break;
-                            } else if (newPosRow - currPosRow == 1) {
+                            } else if (Math.abs(newPosRow - currPosRow )== 1) {
                                 if (chessBoard[newPosRow][currPosCol].getP().getP().equals(" ")) {
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
+                                    chessBoard[currPosRow][currPosCol].getP().setInitial(false);
                                     chessBoard[newPosRow][newPosCol].getP().setInitial(true);
                                 } else {
                                     return false;
