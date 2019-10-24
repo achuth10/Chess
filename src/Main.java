@@ -74,6 +74,7 @@ static int p1Piece;
         }
         if(currPosRow + currPosCol +newPosRow+newPosRow ==0)
         {
+
             return false;
         }
         if((currPosRow>=0 && currPosRow<=7)&&(newPosRow>=0 && newPosRow<=7)) { // Invalid row
@@ -81,7 +82,7 @@ static int p1Piece;
 
             if (!(currPosCol == -1 || newPosCol == -1)) // invalid column
             {
-                if (chessBoard[currPosRow][currPosCol].getP().getP().toLowerCase().equals(piece)) {
+                if (chessBoard[currPosRow][currPosCol].getP().getP().toLowerCase().substring(0,1).equals(piece)) {
                 if (!chessBoard[currPosRow][currPosCol].getP().getP().equals(" ")) {     // Np piece at current location
                     switch (piece) {
                         case "p": // If chosen piece is a pawn
@@ -784,53 +785,53 @@ static int p1Piece;
                     chessBoard[i][j]=new ChessBoard(" ",0,1);
             }
         }
-        chessBoard[0][0].setP( new Piece("C",2,false));
-        chessBoard[0][1].setP( new Piece("H",2,false));
-        chessBoard[0][2].setP( new Piece("B",2,false));
-        chessBoard[0][3].setP( new Piece("K",2,false));
-        chessBoard[0][4].setP( new Piece("Q",2,false));
-        chessBoard[0][5].setP( new Piece("B",2,false));
-        chessBoard[0][6].setP( new Piece("H",2,false));
-        chessBoard[0][7].setP( new Piece("C",2,false));
+        chessBoard[0][0].setP( new Piece("C*",2,false));
+        chessBoard[0][1].setP( new Piece("H*",2,false));
+        chessBoard[0][2].setP( new Piece("B*",2,false));
+        chessBoard[0][3].setP( new Piece("K*",2,false));
+        chessBoard[0][4].setP( new Piece("Q*",2,false));
+        chessBoard[0][5].setP( new Piece("B*",2,false));
+        chessBoard[0][6].setP( new Piece("H*",2,false));
+        chessBoard[0][7].setP( new Piece("C*",2,false));
 
-        chessBoard[1][0].setP( new Piece("P",2,false));
-        chessBoard[1][1].setP( new Piece("P",2,false));
-        chessBoard[1][2].setP( new Piece("P",2,false));
-        chessBoard[1][3].setP( new Piece("P",2,false));
-        chessBoard[1][4].setP( new Piece("P",2,false));
-        chessBoard[1][5].setP( new Piece("P",2,false));
-        chessBoard[1][6].setP( new Piece("P",2,false));
-        chessBoard[1][7].setP( new Piece("P",2,false));
+        chessBoard[1][0].setP( new Piece("P*",2,false));
+        chessBoard[1][1].setP( new Piece("P*",2,false));
+        chessBoard[1][2].setP( new Piece("P*",2,false));
+        chessBoard[1][3].setP( new Piece("P*",2,false));
+        chessBoard[1][4].setP( new Piece("P*",2,false));
+        chessBoard[1][5].setP( new Piece("P*",2,false));
+        chessBoard[1][6].setP( new Piece("P*",2,false));
+        chessBoard[1][7].setP( new Piece("P*",2,false));
 
-        chessBoard[7][0].setP( new Piece("C",1,false));
-        chessBoard[7][1].setP( new Piece("H",1,false));
-        chessBoard[7][2].setP( new Piece("B",1,false));
-        chessBoard[7][3].setP( new Piece("K",1,false));
-        chessBoard[7][4].setP( new Piece("Q",1,false));
-        chessBoard[7][5].setP( new Piece("B",1,false));
-        chessBoard[7][6].setP( new Piece("H",1,false));
-        chessBoard[7][7].setP( new Piece("C",1,false));
+        chessBoard[7][0].setP( new Piece("C^",1,false));
+        chessBoard[7][1].setP( new Piece("H^",1,false));
+        chessBoard[7][2].setP( new Piece("B^",1,false));
+        chessBoard[7][3].setP( new Piece("K^",1,false));
+        chessBoard[7][4].setP( new Piece("Q^",1,false));
+        chessBoard[7][5].setP( new Piece("B^",1,false));
+        chessBoard[7][6].setP( new Piece("H^",1,false));
+        chessBoard[7][7].setP( new Piece("C^",1,false));
 
-        chessBoard[6][0].setP( new Piece("P",1,false));
-        chessBoard[6][1].setP( new Piece("P",1,false));
-        chessBoard[6][2].setP( new Piece("P",1,false));
-        chessBoard[6][3].setP( new Piece("P",1,false));
-        chessBoard[6][4].setP( new Piece("P",1,false));
-        chessBoard[6][5].setP( new Piece("P",1,false));
-        chessBoard[6][6].setP( new Piece("P",1,false));
-        chessBoard[6][7].setP( new Piece("P",1,false));
+        chessBoard[6][0].setP( new Piece("P^",1,false));
+        chessBoard[6][1].setP( new Piece("P^",1,false));
+        chessBoard[6][2].setP( new Piece("P^",1,false));
+        chessBoard[6][3].setP( new Piece("P^",1,false));
+        chessBoard[6][4].setP( new Piece("P^",1,false));
+        chessBoard[6][5].setP( new Piece("P^",1,false));
+        chessBoard[6][6].setP( new Piece("P^",1,false));
+        chessBoard[6][7].setP( new Piece("P^",1,false));
     }
 
     private static void display(ChessBoard[][] chessBoard) {
-        System.out.println("          Player 2("+p2Piece+")");
+        System.out.println("          Player 2*("+p1Piece+")");
 System.out.print("   ");
         for(char c = 'a'; c <= 'h'; ++c)
         {
-            System.out.print(" " + c+" ");
+            System.out.print("  " + c+" ");
         }
         System.out.println();
         System.out.print("   ");
-        for(char c = 'a'; c <= 'l'; ++c)
+        for(char c = 'a'; c <= 'q'; ++c)
         {
             System.out.print("__" );
         }
@@ -840,7 +841,7 @@ System.out.print("   ");
             for(int j = 0 ;j<8;j++)
             {
                if(chessBoard[i][j].getP().getP().equals(" ")) {
-                       System.out.print(" - ");
+                       System.out.print("  - ");
 
                }else
                 System.out.print(" " +chessBoard[i][j].getP().getP()+" ");
@@ -851,7 +852,7 @@ System.out.print("   ");
         }
         System.out.println();
         System.out.print("   ");
-        for(char c = 'a'; c <= 'l'; ++c)
+        for(char c = 'a'; c <= 'q'; ++c)
         {
             System.out.print("__" );
         }
@@ -860,10 +861,10 @@ System.out.print("   ");
         System.out.print("   ");
         for(char c = 'a'; c <= 'h'; ++c)
         {
-            System.out.print(" " + c+" ");
+            System.out.print("  " + c+" ");
         }
         System.out.println();
-        System.out.println("          Player 1("+p1Piece+")");
+        System.out.println("          Player 1^("+p2Piece+")");
     }
     public static void clrscr(){
         //Clears Screen in java
