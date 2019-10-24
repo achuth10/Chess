@@ -1,14 +1,25 @@
 public class Piece {
     String p;
     int owner;
+    boolean initial;
     Piece()
     {
-
+initial= false;
     }
-    Piece(String p , int owner)
+
+    public boolean isInitial() {
+        return initial;
+    }
+
+    public void setInitial(boolean initial) {
+        this.initial = initial;
+    }
+
+    Piece(String p , int owner,boolean initial)
     {
         this.p=p;
         this.owner=owner;
+        this.initial= initial;
     }
 
     public Piece(String s) {
