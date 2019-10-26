@@ -102,13 +102,13 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 
         for(int i = k1y;i>=0;i--)
         {
-            System.out.println("Element in q" + chessBoard[k1x][i].getP().getP());
+            //System.out.println("Element in q" + chessBoard[k1x][i].getP().getP());
             if((chessBoard[k1x][i].getP().getP().contains("^")) && !(chessBoard[k1x][i].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
             {
                 break;
             }
             if ((chessBoard[k1x][i].getP().getP().equals("Q*")) || (chessBoard[k1x][i].getP().getP().equals("C*"))) {
-                System.out.println("Entered here at " +(chessBoard[k1x][i].getP().getP()));
+                //System.out.println("Entered here at " +(chessBoard[k1x][i].getP().getP()));
                 checkk2 = true;
                 break;
             }
