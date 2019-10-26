@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Scanner;
 public class Main {
@@ -41,7 +42,7 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                     System.out.println("Invalid move !! ");
                     continue;
                 }
-                checkCheck(k1x, k1y, k2x, k2y, chessBoard);
+                checkCheck(k1x, k1y, k2x, k2y, chessBoard,play);
                 if (king1_checkmate) {
                     System.out.println("Player 2 wins");
                     ChessCondition = false;
@@ -49,16 +50,21 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                     System.out.println("Player 1 wins");
                     ChessCondition = false;
                 }
-                else if (king1_check) {
+                 if (king1_check && play==1) {
+
                     System.out.println("Warning Player 1 is under check");
                     System.out.println("Redo Move !");
                 }
-                else if (king2_check) {
+                 if (king2_check && play==2) {
                     System.out.println("Warning Player 2 is under check");
                     System.out.println("Redo Move !");
                 }
                     else
                  {
+                     if(king1_check)
+                         System.out.println("Warning Player 1 is under check");
+                     else  if (king2_check)
+                         System.out.println("Warning Player 2 is under check");
                     player = !player;
                     ChessCondition = true;
                 }
@@ -71,12 +77,15 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 
     }
 
-    private static void checkCheck(int k1x, int k1y, int k2x, int k2y, ChessBoard[][] chessBoard) {
-        boolean checkk1,checkk2,checkk3,checkk4,checkk5,checkk6,checkk7,checkk8;
-        boolean checkk21,checkk22,checkk23,checkk24,checkk25,checkk26,checkk27,checkk28;
+    private static void checkCheck(int k1x, int k1y, int k2x, int k2y, ChessBoard[][] chessBoard,int play) {
+        boolean checkk1,checkk2,checkk3,checkk4,checkk5,checkk6,checkk7,checkk8,checkk9,checkk10;
+        boolean checkk21,checkk22,checkk23,checkk24,checkk25,checkk26,checkk27,checkk28,checkk29,checkk210;
         checkk1=checkk2=checkk3=checkk4=checkk5=checkk6=checkk7=checkk8=checkk21=checkk22=checkk23=checkk24=checkk25=checkk26=checkk27=checkk28=false;
 
         //King1
+
+
+
         for(int i = k1y;i<=7;i++)
         {
             if((chessBoard[k1x][i].getP().getP().contains("^")) && !(chessBoard[k1x][i].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
@@ -93,11 +102,13 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 
         for(int i = k1y;i>=0;i--)
         {
+            System.out.println("Element in q" + chessBoard[k1x][i].getP().getP());
             if((chessBoard[k1x][i].getP().getP().contains("^")) && !(chessBoard[k1x][i].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
             {
                 break;
             }
             if ((chessBoard[k1x][i].getP().getP().equals("Q*")) || (chessBoard[k1x][i].getP().getP().equals("C*"))) {
+                System.out.println("Entered here at " +(chessBoard[k1x][i].getP().getP()));
                 checkk2 = true;
                 break;
             }
@@ -129,71 +140,86 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         j=k1y;
         for(int i = k1x;i<7;i++)
         {
-            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
-            {
-                break;
-            }
-                if (j <= 7) {
-                    if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*")) || (chessBoard[i][j].getP().getP().equals("B*"))) {
-                        checkk5 = true;
-                        break;
-                    }
+            if (j <= 7) {
+                if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP()))) {
+                    break;
                 }
-            j++;
+
+                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*")) || (chessBoard[i][j].getP().getP().equals("B*"))) {
+                    checkk5 = true;
+                    break;
+                }
+
+                j++;
+            }
+            else
+                break;
         }
 
         j=k1y;
         for(int i = k1x;i<=7;i++)
         {
-            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
-            {
-                break;
-            }
             if(j>=0) {
-                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
+                if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP()))) {
+                    break;
+                }
+
+                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*")) || (chessBoard[i][j].getP().getP().equals("B*"))) {
                     checkk6 = true;
                     break;
                 }
+
+                j--;
             }
-            j--;
+            else break;
         }
 
         j=k1y;
         for(int i = k1x;i>=0;i--)
         {
-            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
-            {
-                break;
-            }
-                if(j>=0) {
-                    if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
-                        checkk7 = true;
-                        break;
-                    }
+
+            if(j>0) {
+                if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP()))) {
+                    break;
                 }
+                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*")) || (chessBoard[i][j].getP().getP().equals("B*"))) {
+                    checkk7 = true;
+                    break;
+                }
+
                 j--;
+            }
+            else break;
         }
         j=k1y;
         for(int i = k1x;i>=0;i--)
         {
-            if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP())))
-            {
-                break;
-            }
             if(j<=7) {
-                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*"))|| (chessBoard[i][j].getP().getP().equals("B*"))) {
+                if ((chessBoard[i][j].getP().getP().contains("^")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k1x][k1y].getP().getP()))) {
+                    break;
+                }
+
+                if ((chessBoard[i][j].getP().getP().equals("Q*")) || (chessBoard[i][j].getP().getP().equals("C*")) || (chessBoard[i][j].getP().getP().equals("B*"))) {
                     checkk8 = true;
                     break;
                 }
+
+                j++;
             }
-            j++;
+            else
+                break;
         }
 
 
         //King2
+
+
+
+
+
         for(int i = k2y;i<=7;i++)
         {
-            if((chessBoard[k2x][i].getP().getP().contains("^")) && !(chessBoard[k2x][i].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            if((chessBoard[k2x][i].getP().getP().contains("*")) && !(chessBoard[k2x][i].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
             {
                 break;
             }
@@ -207,7 +233,7 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 
         for(int i = k2y;i>=0;i--)
         {
-            if((chessBoard[k2x][i].getP().getP().contains("^")) && !(chessBoard[k2x][i].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            if((chessBoard[k2x][i].getP().getP().contains("*")) && !(chessBoard[k2x][i].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
             {
                 break;
             }
@@ -218,7 +244,7 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         }
         for(int i = k2x;i<7;i++)
         {
-            if((chessBoard[i][k2y].getP().getP().contains("^")) && !(chessBoard[i][k2y].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            if((chessBoard[i][k2y].getP().getP().contains("*")) && !(chessBoard[i][k2y].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
             {
                 break;
             }
@@ -229,7 +255,7 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         }
         for(int i = k2x;i>=0;i--)
         {
-            if((chessBoard[i][k2y].getP().getP().contains("^")) && !(chessBoard[i][k2y].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
+            if((chessBoard[i][k2y].getP().getP().contains("*")) && !(chessBoard[i][k2y].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
             {
                 break;
             }
@@ -238,80 +264,103 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                 break;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
         j=k2y;
         for(int i = k2x;i<7;i++)
         {
-            if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
-            {
-                break;
-            }
             if(j<=7) {
-                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
+                if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP()))) {
+                    break;
+                }
+
+                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^")) || (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk25 = true;
                     break;
                 }
+
+                j++;
             }
-            j++;
+            else break;
         }
 
         j=k2y;
-        for(int i = k2x;i<=7;i++)
-        {
-            if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
-            {
-                break;
-            }
-            if(j>=0) {
-                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
+        for(int i = k2x;i<=7;i++) {
+            if (j >= 0) {
+                if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP()))) {
+                    break;
+                }
+                if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^")) || (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk26 = true;
                     break;
                 }
+
+                j--;
             }
-            j--;
+            else break;
         }
 
         j=k2y;
         for(int i = k2x;i>=0;i--)
         {
+            if(j>=0) {
             if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
             {
                 break;
             }
-            if(j>=0) {
+
                 if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk27 = true;
                     break;
                 }
+                j--;
             }
-            j--;
+            else
+                break;
+
         }
         j=k2y;
         for(int i = k2x;i>=0;i--)
         {
+            if(j<=7) {
             if ((chessBoard[i][j].getP().getP().contains("*")) && !(chessBoard[i][j].getP().getP().equals(chessBoard[k2x][k2y].getP().getP())))
             {
                 break;
             }
-            if(j<=7) {
+
                 if ((chessBoard[i][j].getP().getP().equals("Q^")) || (chessBoard[i][j].getP().getP().equals("C^"))|| (chessBoard[i][j].getP().getP().equals("B^"))) {
                     checkk28 = true;
                     break;
                 }
+                j++;
             }
-            j++;
+            else
+                break;
+
         }
 
 
 
 
-        if(checkk1&&checkk2&&checkk3&&checkk4&&checkk5&&checkk6&&checkk7&&checkk8)
-        {
-            king1_checkmate = true;
-        }
-        if(checkk21&&checkk22&&checkk23&&checkk24&&checkk25&&checkk26&&checkk27&&checkk28)
-        {
-            king2_checkmate = true;
-        }
+//        if(checkk1&&checkk2&&checkk3&&checkk4&&checkk5&&checkk6&&checkk7&&checkk8)
+//        {
+//            king1_checkmate = true;
+//        }
+//        if(checkk21&&checkk22&&checkk23&&checkk24&&checkk25&&checkk26&&checkk27&&checkk28)
+//        {
+//            king2_checkmate = true;
+//        }
         if(checkk1||checkk2||checkk3||checkk4||checkk5||checkk6||checkk7||checkk8)
         {
             king1_check = true;
@@ -322,8 +371,654 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
             king2_check = true;
         }
 
+        boolean r1,l1,d1,u1,dr1,dl1,ul1,ur1;
+        r1=l1=d1=u1=dr1=dl1=ul1=ur1=false;
 
-
+//        if(play==1) {
+//            if (checkk1) // Right
+//                    {
+//                        if ( (k1y<7)&&chessBoard[k1x][k1y + 1].getP().getP().equals("Q*")) {
+//                    if (  ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//                            || ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*")))))// Down left)
+//                     {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if ( (k1y<7)&& chessBoard[k1x][k1y + 1].getP().getP().equals("C*")) {
+//                    if (
+//                            ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//
+//                                    ||  ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                    || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))//Up
+//
+//                                    || (k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) //Down
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if (
+//
+//                        ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//
+//                                ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))//Up
+//
+//                                || (k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) ) //Down
+//
+//                                || (k1x > 0) &&  (k1y<7)&& (((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*"))))//Top right
+//
+//                                || (k1y<7)&& (chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) ||  (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) //Down right
+//                {
+//
+//                } else
+//                    king1_checkmate = true;
+//            }
+//
+//
+//            if (!king1_checkmate && checkk2) // left
+//            {
+//
+//                if ((k1y > 0) && (chessBoard[k1x][k1y - 1].getP().getP().equals("Q*"))) {
+//                    if ((k1x<7)&&(k1y<7)&&((chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) // Down right
+//                            || (k1x > 0) &&  (k1y<7)&& (((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))))//Top right
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if ((k1y > 0) && (chessBoard[k1x][k1y - 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            ((k1x > 0) &&  (k1y<7)&& (((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) ||  (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))))// Top right
+//
+//                                    || (k1y<7)&& ((chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) ||  (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) // Down right
+//
+//                                    || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))//Up
+//
+//                                    || (k1x<7)&&(((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) )//Down
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if (
+//                        ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))//Up
+//
+//                                || ((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*"))) ) //Down
+//                                || (k1x > 0) && (k1y<7)&& ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))//Top right
+//                                || ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//                                ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//                                ||  (k1y<7)&&(chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) ||  (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) //Down right
+//                {
+//
+//                } else
+//                    king1_checkmate = true;
+//            }
+//
+//
+//            if (!king1_checkmate && checkk3) // Down
+//            {
+//
+//                if (chessBoard[k1x + 1][k1y].getP().getP().equals("Q*")) {
+//                    if (((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//                            || (k1x > 0) &&  (k1y<7)&& ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) ||   (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*"))))//Top right
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if (chessBoard[k1x + 1][k1y + 1].getP().getP().equals("C*")) {
+//                    if (
+//                            ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//                                    || (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//
+//                                    || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//
+//
+//                                    || (k1x > 0) &&  (k1y<7)&& (((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))))// Top right
+//
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if (
+//
+//                        ( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//
+//                                || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//                                || ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//
+//                                || (k1x > 0) && (k1y<7)&& ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) ||(chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))//Top right
+//                                ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                || (chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) //Down right
+//                {
+//
+//                } else
+//                    king1_checkmate = true;
+//            }
+//
+//
+//            if (!king1_checkmate && checkk4) // Up
+//            {
+//
+//                if ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals("Q*")))) {
+//                    if ((k1x<7)&&(k1y<7)&&((chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) // Down right
+//                            ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*")))))// Down left
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals("C*")))) {
+//                    if (
+//                            (k1x<7)&&(k1y<7)&&((chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) // Down right
+//
+//                                    ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                    || (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//
+//                                    || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//
+//
+//                    ) {
+//
+//                    }
+//                } else
+//                    king1_checkmate = true;
+//            } else if (
+//
+//                    (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//
+//                            || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//                            || ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//
+//                            || (k1x > 0) && (k1y<7)&& ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))//Top right
+//                            ||   ((k1y > 0) && (k1x<7) && (((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//
+//                            || (chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) //Down right
+//            {
+//
+//            } else
+//                king1_checkmate = true;
+//
+//
+//            if (!king1_checkmate && checkk5) // Down Right
+//            {
+//
+//                if ((chessBoard[k1x + 1][k1y + 1].getP().getP().equals("Q*"))) {
+//                    if ((k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//
+//                            || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*")))))//Up
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if ((chessBoard[k1x + 1][k1y + 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*"))//Left
+//                                    || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*")))) // Up
+//
+//                                    || ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//
+//                            )
+//
+//
+//                    ) {
+//
+//                    }
+//                } else
+//                    king1_checkmate = true;
+//            } else if (
+//
+//                    (k1y<7)&&(((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//                            || ((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) //Down
+//                            || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//                            ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//                            || (k1x > 0) && ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))//Top right
+//                            || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))//Up
+//
+//            ) {
+//
+//            } else
+//                king1_checkmate = true;
+//
+//
+//            if (!king1_checkmate && checkk6) // Down left
+//            {
+//
+//
+//                if ((k1y > 0) && (chessBoard[k1x + 1][k1y - 1].getP().getP().equals("Q*"))) {
+//                    if ((k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//
+//                            || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*")))))//Up
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if ((k1y > 0) && (chessBoard[k1x + 1][k1y - 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//                                    || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*")))) // Up
+//                                    || (k1x > 0) && ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))//Top right
+//
+//                    ) {
+//
+//                    }
+//                } else
+//                    king1_checkmate = true;
+//            } else if (
+//                    (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//                            || ((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) //Down
+//                            || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//                            || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))// up
+//                            || ((k1x > 0) && ((k1y > 0) && ((chessBoard[k1x - 1][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y - 1].getP().getP().contains("*")))))// Top left
+//                            || (k1x<7)&&(k1y<7)&&((chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*")))) // Down right     )
+//            {
+//
+//            } else
+//                king1_checkmate = true;
+//
+//
+//            if (!king1_checkmate && checkk7) // Top left
+//            {
+//
+//
+//                if ((k1x > 0) && ((k1y > 0) && (chessBoard[k1x - 1][k1y - 1].getP().getP().equals("Q*")))) {
+//                    if (((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) //Down
+//                            || (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*")))))// Right
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if ((k1x > 0) && ((k1y > 0) && (chessBoard[k1x - 1][k1y - 1].getP().getP().equals("C*")))) {
+//                    if (((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) //Down
+//                            || (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//                            || (chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))) //Down right
+//
+//                    {
+//
+//                    }
+//                } else
+//                    king1_checkmate = true;
+//            } else if (
+//
+//                    (k1y<7)&&( (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*"))))// Right
+//                            || ((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) //Down
+//                            || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//                            ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//                            || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))// up
+//                            || (k1x > 0) && ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))//Top right
+//            ) {
+//
+//            } else
+//                king1_checkmate = true;
+//
+//            if (!king1_checkmate && checkk8) // Top right
+//            {
+//
+//
+//                if ((k1x > 0) && (chessBoard[k1x - 1][k1y + 1].getP().getP().equals("Q*"))) {
+//                    if (((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )) //Down
+//                            || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*"))))//Left)
+//                    {
+//
+//                    } else
+//                        king1_checkmate = true;
+//                } else if ((k1x > 0) && (chessBoard[k1x - 1][k1y + 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            (k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*")) )//Down
+//                                    || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))
+//                                    ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//                    ) {
+//
+//                    }
+//                } else
+//                    king1_checkmate = true;
+//            } else if (
+//
+//                    (k1y<7)&&((chessBoard[k1x][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y + 1].getP().getP().contains("*")))// Right
+//                            || ((k1x<7)&&((chessBoard[k1x + 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y].getP().getP().contains("*"))) ) //Down
+//                            || (chessBoard[k1x + 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x + 1][k1y + 1].getP().getP().contains("*"))   //Down right
+//                            || (k1x > 0) && ((chessBoard[k1x - 1][k1y + 1].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y + 1].getP().getP().contains("*")))//Top right
+//                            || (k1y > 0) && ((chessBoard[k1x][k1y - 1].getP().getP().equals(" ")) || (chessBoard[k1x][k1y - 1].getP().getP().contains("*")))//Left
+//                            ||   ((k1y > 0) && (k1x<7) &&(((chessBoard[k1x + 1][k1y - 1].getP().getP().equals(" "))) || (chessBoard[k1x + 1][k1y - 1].getP().getP().contains("*"))))// Down left
+//                            || ((k1x > 0) && ((chessBoard[k1x - 1][k1y].getP().getP().equals(" ")) || (chessBoard[k1x - 1][k1y].getP().getP().contains("*"))))// up
+//
+//
+//            ) {
+//
+//            } else
+//                king1_checkmate = true;
+//
+//
+//        }
+//
+//
+//
+//
+//
+//           King 2
+//
+//
+//
+//
+//
+//        else if (play ==2)
+//        {
+//            if (checkk21) // Right
+//                    {
+//                        if ( (k2y<7)&&chessBoard[k2x][k2y + 1].getP().getP().equals("Q*")) {
+//                    if (  ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//                            || ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*")))))// Down left)
+//                     {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if ( (k2y<7)&& chessBoard[k2x][k2y + 1].getP().getP().equals("C*")) {
+//                    if (
+//                            ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//
+//                                    ||  ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                    || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))//Up
+//
+//                                    || (k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) //Down
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if (
+//
+//                        ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//
+//                                ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))//Up
+//
+//                                || (k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) ) //Down
+//
+//                                || (k2x > 0) &&  (k2y<7)&& (((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*"))))//Top right
+//
+//                                || (k2y<7)&& (chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) ||  (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) //Down right
+//                {
+//
+//                } else
+//                    king2_checkmate = true;
+//            }
+//
+//
+//            if (!king2_checkmate && checkk22) // left
+//            {
+//
+//                if ((k2y > 0) && (chessBoard[k2x][k2y - 1].getP().getP().equals("Q*"))) {
+//                    if ((k2x<7)&&(k2y<7)&&((chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) // Down right
+//                            || (k2x > 0) &&  (k2y<7)&& (((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))))//Top right
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if ((k2y > 0) && (chessBoard[k2x][k2y - 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            ((k2x > 0) &&  (k2y<7)&& (((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) ||  (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))))// Top right
+//
+//                                    || (k2y<7)&& ((chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) ||  (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) // Down right
+//
+//                                    || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))//Up
+//
+//                                    || (k2x<7)&&(((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) )//Down
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if (
+//                        ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))//Up
+//
+//                                || ((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*"))) ) //Down
+//                                || (k2x > 0) && (k2y<7)&& ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))//Top right
+//                                || ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//                                ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//                                ||  (k2y<7)&&(chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) ||  (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) //Down right
+//                {
+//
+//                } else
+//                    king2_checkmate = true;
+//            }
+//
+//
+//            if (!king2_checkmate && checkk23) // Down
+//            {
+//
+//                if (chessBoard[k2x + 1][k2y].getP().getP().equals("Q*")) {
+//                    if (((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//                            || (k2x > 0) &&  (k2y<7)&& ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) ||   (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*"))))//Top right
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if (chessBoard[k2x + 1][k2y + 1].getP().getP().equals("C*")) {
+//                    if (
+//                            ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//                                    || (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//
+//                                    || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//
+//
+//                                    || (k2x > 0) &&  (k2y<7)&& (((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))))// Top right
+//
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if (
+//
+//                        ( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//
+//                                || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//                                || ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//
+//                                || (k2x > 0) && (k2y<7)&& ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) ||(chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))//Top right
+//                                ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                || (chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) //Down right
+//                {
+//
+//                } else
+//                    king2_checkmate = true;
+//            }
+//
+//
+//            if (!king2_checkmate && checkk24) // Up
+//            {
+//
+//                if ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals("Q*")))) {
+//                    if ((k2x<7)&&(k2y<7)&&((chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) // Down right
+//                            ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*")))))// Down left
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals("C*")))) {
+//                    if (
+//                            (k2x<7)&&(k2y<7)&&((chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) // Down right
+//
+//                                    ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//
+//                                    || (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//
+//                                    || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//
+//
+//                    ) {
+//
+//                    }
+//                } else
+//                    king2_checkmate = true;
+//            } else if (
+//
+//                    (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//
+//                            || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//                            || ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//
+//                            || (k2x > 0) && (k2y<7)&& ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))//Top right
+//                            ||   ((k2y > 0) && (k2x<7) && (((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//
+//                            || (chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) //Down right
+//            {
+//
+//            } else
+//                king2_checkmate = true;
+//
+//
+//            if (!king2_checkmate && checkk25) // Down Right
+//            {
+//
+//                if ((chessBoard[k2x + 1][k2y + 1].getP().getP().equals("Q*"))) {
+//                    if ((k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//
+//                            || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*")))))//Up
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if ((chessBoard[k2x + 1][k2y + 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*"))//Left
+//                                    || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*")))) // Up
+//
+//                                    || ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//
+//                            )
+//
+//
+//                    ) {
+//
+//                    }
+//                } else
+//                    king2_checkmate = true;
+//            } else if (
+//
+//                    (k2y<7)&&(((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//                            || ((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) //Down
+//                            || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//                            ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//                            || (k2x > 0) && ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))//Top right
+//                            || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))//Up
+//
+//            ) {
+//
+//            } else
+//                king2_checkmate = true;
+//
+//
+//            if (!king2_checkmate && checkk26) // Down left
+//            {
+//
+//
+//                if ((k2y > 0) && (chessBoard[k2x + 1][k2y - 1].getP().getP().equals("Q*"))) {
+//                    if ((k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//
+//                            || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*")))))//Up
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if ((k2y > 0) && (chessBoard[k2x + 1][k2y - 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//                                    || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*")))) // Up
+//                                    || (k2x > 0) && ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))//Top right
+//
+//                    ) {
+//
+//                    }
+//                } else
+//                    king2_checkmate = true;
+//            } else if (
+//                    (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//                            || ((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) //Down
+//                            || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//                            || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))// up
+//                            || ((k2x > 0) && ((k2y > 0) && ((chessBoard[k2x - 1][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y - 1].getP().getP().contains("*")))))// Top left
+//                            || (k2x<7)&&(k2y<7)&&((chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*")))) // Down right     )
+//            {
+//
+//            } else
+//                king2_checkmate = true;
+//
+//
+//            if (!king2_checkmate && checkk27) // Top left
+//            {
+//
+//
+//                if ((k2x > 0) && ((k2y > 0) && (chessBoard[k2x - 1][k2y - 1].getP().getP().equals("Q*")))) {
+//                    if (((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) //Down
+//                            || (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*")))))// Right
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if ((k2x > 0) && ((k2y > 0) && (chessBoard[k2x - 1][k2y - 1].getP().getP().equals("C*")))) {
+//                    if (((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) //Down
+//                            || (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//                            || (chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))) //Down right
+//
+//                    {
+//
+//                    }
+//                } else
+//                    king2_checkmate = true;
+//            } else if (
+//
+//                    (k2y<7)&&( (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*"))))// Right
+//                            || ((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) //Down
+//                            || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//                            ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//                            || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))// up
+//                            || (k2x > 0) && ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))//Top right
+//            ) {
+//
+//            } else
+//                king2_checkmate = true;
+//
+//            if (!king2_checkmate && checkk28) // Top right
+//            {
+//
+//
+//                if ((k2x > 0) && (chessBoard[k2x - 1][k2y + 1].getP().getP().equals("Q*"))) {
+//                    if (((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )) //Down
+//                            || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*"))))//Left)
+//                    {
+//
+//                    } else
+//                        king2_checkmate = true;
+//                } else if ((k2x > 0) && (chessBoard[k2x - 1][k2y + 1].getP().getP().equals("C*"))) {
+//                    if (
+//                            (k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*")) )//Down
+//                                    || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))
+//                                    ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//                    ) {
+//
+//                    }
+//                } else
+//                    king2_checkmate = true;
+//            } else if (
+//
+//                    (k2y<7)&&((chessBoard[k2x][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y + 1].getP().getP().contains("*")))// Right
+//                            || ((k2x<7)&&((chessBoard[k2x + 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y].getP().getP().contains("*"))) ) //Down
+//                            || (chessBoard[k2x + 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x + 1][k2y + 1].getP().getP().contains("*"))   //Down right
+//                            || (k2x > 0) && ((chessBoard[k2x - 1][k2y + 1].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y + 1].getP().getP().contains("*")))//Top right
+//                            || (k2y > 0) && ((chessBoard[k2x][k2y - 1].getP().getP().equals(" ")) || (chessBoard[k2x][k2y - 1].getP().getP().contains("*")))//Left
+//                            ||   ((k2y > 0) && (k2x<7) &&(((chessBoard[k2x + 1][k2y - 1].getP().getP().equals(" "))) || (chessBoard[k2x + 1][k2y - 1].getP().getP().contains("*"))))// Down left
+//                            || ((k2x > 0) && ((chessBoard[k2x - 1][k2y].getP().getP().equals(" ")) || (chessBoard[k2x - 1][k2y].getP().getP().contains("*"))))// up
+//
+//
+//            ) {
+//
+//            } else
+//                king2_checkmate = true;
+//
+//
+//        }
+//        }
 
 
 
@@ -343,14 +1038,22 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
         try {
             currPosRow = Integer.parseInt(String.valueOf(currPos.charAt(0))) - 1;
             newPosRow = Integer.parseInt(String.valueOf(newPos.charAt(0))) - 1;
-            currPosCol = col(String.valueOf(currPos.charAt(1)));
-            newPosCol = col(String.valueOf(newPos.charAt(1)));
-
+            try {
+                currPosCol = col(String.valueOf(currPos.charAt(1)));
+                newPosCol = col(String.valueOf(newPos.charAt(1)));
+            }
+            catch (StringIndexOutOfBoundsException e )
+            {
+               return false;
+            }
         }
         catch (NumberFormatException e )
         {
-            e.printStackTrace();
+           return false;
         }
+
+        if(chessBoard[currPosRow][currPosCol].getP().getOwner()==player)
+        {
         if(currPosRow + currPosCol +newPosRow+newPosRow ==0)
         {
 
@@ -365,18 +1068,18 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                 if (!chessBoard[currPosRow][currPosCol].getP().getP().equals(" ")) {     // Np piece at current location
                     switch (piece) {
                         case "p": // If chosen piece is a pawn
-                            if (Math.abs(newPosRow - currPosRow )== 1 && Math.abs(newPosCol - currPosCol )== 1)
+                            if (Math.abs(newPosRow - currPosRow) == 1 && Math.abs(newPosCol - currPosCol) == 1)
                             // && chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
-                        {
-                            if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals(" ")) {
-                                   /// System.out.println("Entered kill cond");
+                            {
+                                if (!chessBoard[currPosCol + 1][currPosCol + 1].getP().getP().equals(" ")) {
+                                    /// System.out.println("Entered kill cond");
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                     chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
                                     chessBoard[currPosRow][currPosCol].getP().setInitial(false);
                                     chessBoard[newPosRow][newPosCol].getP().setInitial(true);
-                                    if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                    if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                         p2Piece--;
                                     else
                                         p1Piece--;
@@ -384,7 +1087,7 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                     return false;
                                 }
                                 break;
-                            } else if (Math.abs(newPosRow - currPosRow )== 1) {
+                            } else if (Math.abs(newPosRow - currPosRow) == 1) {
                                 if (chessBoard[newPosRow][currPosCol].getP().getP().equals(" ")) {
                                     chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                     chessBoard[currPosRow][currPosCol].getP().setP(" ");
@@ -397,8 +1100,8 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                 }
                                 break;
                             } else if (Math.abs(newPosRow - currPosRow) == 2) {
-                               // System.out.println("entered here");
-                                if(!chessBoard[currPosRow][currPosCol].getP().isInitial()) {
+                                // System.out.println("entered here");
+                                if (!chessBoard[currPosRow][currPosCol].getP().isInitial()) {
                                     if (chessBoard[newPosRow][currPosCol].getP().getP().equals(" ")) {
                                         chessBoard[newPosRow][newPosCol].getP().setP(chessBoard[currPosRow][currPosCol].getP().getP());
                                         chessBoard[currPosRow][currPosCol].getP().setP(" ");
@@ -407,7 +1110,7 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                         chessBoard[currPosRow][currPosCol].getP().setInitial(false);
                                         chessBoard[newPosRow][newPosCol].getP().setInitial(true);
                                     }
-                                }else {
+                                } else {
                                     return false;
                                 }
                                 break;
@@ -534,9 +1237,8 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 //                            System.out.println(" new is "+ chessBoard[newPosRow][newPosCol].getP().getOwner());
 //                            System.out.println("old is "+ chessBoard[currPosRow][currPosCol].getP().getOwner());
                                 if (!changed && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
-                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
-                                    {
-                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                    if (!chessBoard[newPosRow][newPosCol].getP().getP().equals(" ")) {
+                                        if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                             p2Piece--;
                                         else
                                             p1Piece--;
@@ -560,9 +1262,8 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                 if ((currPosCol + 2 == newPosCol) || (currPosCol - 2 == newPosCol)) {
                                     if ((currPosRow + 1 == newPosRow) || (currPosRow - 1 == newPosRow)) {
                                         if (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
-                                            if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
-                                            {
-                                                if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                            if (!chessBoard[newPosRow][newPosCol].getP().getP().equals(" ")) {
+                                                if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                                     p2Piece--;
                                                 else
                                                     p1Piece--;
@@ -581,9 +1282,8 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                 } else if ((currPosCol + 1 == newPosCol) || (currPosCol - 1 == newPosCol)) {
                                     if ((currPosRow + 2 == newPosRow) || (currPosRow - 2 == newPosRow)) {
                                         if (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) {
-                                            if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
-                                            {
-                                                if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                            if (!chessBoard[newPosRow][newPosCol].getP().getP().equals(" ")) {
+                                                if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                                     p2Piece--;
                                                 else
                                                     p1Piece--;
@@ -713,9 +1413,8 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                 }
 
                                 if (!changed2 && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
-                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
-                                    {
-                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                    if (!chessBoard[newPosRow][newPosCol].getP().getP().equals(" ")) {
+                                        if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                             p2Piece--;
                                         else
                                             p1Piece--;
@@ -851,9 +1550,8 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 //                            System.out.println(" new is "+ chessBoard[newPosRow][newPosCol].getP().getOwner());
 //                            System.out.println("old is "+ chessBoard[currPosRow][currPosCol].getP().getOwner());
                                 if (!changed3 && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
-                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
-                                    {
-                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                    if (!chessBoard[newPosRow][newPosCol].getP().getP().equals(" ")) {
+                                        if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                             p2Piece--;
                                         else
                                             p1Piece--;
@@ -864,9 +1562,7 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                     chessBoard[currPosRow][currPosCol].getP().setOwner(0);
 
                                 }
-                            }
-
-                            else {
+                            } else {
                                 boolean changed4 = false;
                                 if (currPosCol > newPosCol) {
                                     if (currPosRow < newPosRow) {
@@ -970,9 +1666,8 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                 }
 
                                 if (!changed4 && (chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner())) {
-                                    if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
-                                    {
-                                        if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                                    if (!chessBoard[newPosRow][newPosCol].getP().getP().equals(" ")) {
+                                        if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                             p2Piece--;
                                         else
                                             p1Piece--;
@@ -990,21 +1685,19 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
 
                         case "k":
 
-                            if((chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) && (
-                                    (newPosCol==currPosCol+1 )&& (currPosRow==newPosRow))
-                                    ||  ((newPosCol==currPosCol+1 )&& (currPosRow+1==newPosRow) )
-                                    ||  ((newPosCol==currPosCol   )&& (currPosRow+1==newPosRow) )
-                                    ||  ((newPosCol==currPosCol-1 )&& (currPosRow+1==newPosRow) )
-                                    ||  ((newPosCol==currPosCol-1 )&& (currPosRow  ==newPosRow) )
-                                    ||  ((newPosCol==currPosCol-1 )&& (currPosRow-1==newPosRow) )
-                                    ||  ((newPosCol==currPosCol   )&& (currPosRow-1==newPosRow) )
-                                    ||  ((newPosCol==currPosCol+1 )&& (currPosRow-1==newPosRow) )
-                                    ||  ((newPosCol==currPosCol+1 )&& (currPosRow  ==newPosRow) )
-                            )
-                            {
-                                if(!chessBoard[newPosRow][newPosCol].getP().getP().equals(" "))
-                                {
-                                    if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
+                            if ((chessBoard[newPosRow][newPosCol].getP().getOwner() != chessBoard[currPosRow][currPosCol].getP().getOwner()) && (
+                                    (newPosCol == currPosCol + 1) && (currPosRow == newPosRow))
+                                    || ((newPosCol == currPosCol + 1) && (currPosRow + 1 == newPosRow))
+                                    || ((newPosCol == currPosCol) && (currPosRow + 1 == newPosRow))
+                                    || ((newPosCol == currPosCol - 1) && (currPosRow + 1 == newPosRow))
+                                    || ((newPosCol == currPosCol - 1) && (currPosRow == newPosRow))
+                                    || ((newPosCol == currPosCol - 1) && (currPosRow - 1 == newPosRow))
+                                    || ((newPosCol == currPosCol) && (currPosRow - 1 == newPosRow))
+                                    || ((newPosCol == currPosCol + 1) && (currPosRow - 1 == newPosRow))
+                                    || ((newPosCol == currPosCol + 1) && (currPosRow == newPosRow))
+                            ) {
+                                if (!chessBoard[newPosRow][newPosCol].getP().getP().equals(" ")) {
+                                    if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1)
                                         p2Piece--;
                                     else
                                         p1Piece--;
@@ -1014,15 +1707,12 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                                 chessBoard[currPosRow][currPosCol].getP().setP(" ");
                                 chessBoard[newPosRow][newPosCol].getP().setOwner(chessBoard[currPosRow][currPosCol].getP().getOwner());
                                 chessBoard[currPosRow][currPosCol].getP().setOwner(0);
-                                if(chessBoard[newPosRow][newPosCol].getP().getOwner()==1)
-                                {
-                                    k1x=newPosRow;
-                                    k1y=newPosCol;
-                                }
-                                else
-                                {
-                                    k2x=newPosRow;
-                                    k2y=newPosCol;
+                                if (chessBoard[newPosRow][newPosCol].getP().getOwner() == 1) {
+                                    k2x = newPosRow;
+                                    k1y = newPosCol;
+                                } else {
+                                    k2x = newPosRow;
+                                    k2y = newPosCol;
                                 }
                             } else
                                 return false;
@@ -1031,6 +1721,9 @@ static int p1Piece,p2Piece,k1x,k1y,k2x,k2y;
                     }
                     display(chessBoard);
                     return true;
+                }
+                else
+                    return false;
                 }
                 else
                     return false;
