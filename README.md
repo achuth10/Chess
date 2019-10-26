@@ -7,7 +7,7 @@ A simple chess game using OOP concepts.
 
 Extra Classes contained :
 
-1) Piece - A class depicting a  piece on the board (Knight)
+1) Piece - A class depicting a  piece on the board (Eg - Knight/Pawn)
 2) Chessboard - A class depicting the chessboard
 
 
